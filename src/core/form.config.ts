@@ -36,45 +36,69 @@ const forms: Record<string, FormConfig> = {
       label: "Email Address",
       placeholder: "name@domain.com",
       size: { xs: 12 },
-      advanced: { required: "Email is required" },
+      advanced: {
+        required: "Email is required",
+      },
     },
     password: {
       type: "password",
       label: "Password",
-      placeholder: "Enter password",
+      placeholder: "Enter your password",
       size: { xs: 12 },
-      advanced: { required: "Password is required" },
+      advanced: {
+        required: "Password is required",
+      },
     },
   },
 
   register: {
-    firstName: {
+    username: {
       type: "text",
-      label: "First Name",
-      placeholder: "John",
-      size: { xs: 12, sm: 6 },
-      advanced: { required: "First name is required" },
+      label: "Username",
+      placeholder: "Choose a username",
+      size: { xs: 12 },
+      advanced: {
+        required: "Username is required",
+      },
     },
-    lastName: {
+    display_name: {
       type: "text",
-      label: "Last Name",
-      placeholder: "Doe",
-      size: { xs: 12, sm: 6 },
-      advanced: { required: "Last name is required" },
+      label: "Display Name",
+      placeholder: "How should we call you?",
+      size: { xs: 12 },
+      advanced: {
+        required: "Display name is required",
+      },
     },
     email: {
       type: "text",
       label: "Email Address",
-      placeholder: "john@example.com",
+      placeholder: "name@domain.com",
       size: { xs: 12 },
-      advanced: { required: "Email is required" },
+      advanced: {
+        required: "Email is required",
+      },
+    },
+    first_name: {
+      type: "text",
+      label: "First Name",
+      placeholder: "John",
+      size: { xs: 12, sm: 6 },
+    },
+    last_name: {
+      type: "text",
+      label: "Last Name",
+      placeholder: "Doe",
+      size: { xs: 12, sm: 6 },
     },
     password: {
       type: "password",
       label: "Password",
-      placeholder: "Create strong password",
+      placeholder: "Create a strong password",
       size: { xs: 12 },
-      advanced: { required: "Password is required" },
+      advanced: {
+        required: "Password is required",
+      },
     },
   },
 
@@ -84,7 +108,9 @@ const forms: Record<string, FormConfig> = {
       label: "Email Address",
       placeholder: "name@domain.com",
       size: { xs: 12 },
-      advanced: { required: "Email is required" },
+      advanced: {
+        required: "Email is required",
+      },
     },
   },
 
@@ -92,25 +118,53 @@ const forms: Record<string, FormConfig> = {
     new_password: {
       type: "password",
       label: "New Password",
-      advanced: { required: true },
+      placeholder: "Create a new password",
+      size: { xs: 12 },
+      advanced: {
+        required: "New password is required",
+      },
     },
     confirm_password: {
       type: "password",
       label: "Confirm New Password",
-      advanced: { required: true },
+      placeholder: "Confirm your new password",
+      size: { xs: 12 },
+      advanced: {
+        required: "Please confirm your new password",
+      },
     },
   },
 
   user_profile: {
+    username: {
+      type: "text",
+      label: "Username",
+      placeholder: "Username",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
+    },
+    display_name: {
+      type: "text",
+      label: "Display Name",
+      placeholder: "Display name",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
+    },
     first_name: {
       type: "text",
       label: "First Name",
-      advanced: { required: true },
+      placeholder: "John",
+      size: { xs: 12, sm: 6 },
     },
     last_name: {
       type: "text",
       label: "Last Name",
-      advanced: { required: true },
+      placeholder: "Doe",
+      size: { xs: 12, sm: 6 },
     },
   },
 
@@ -118,17 +172,29 @@ const forms: Record<string, FormConfig> = {
     current_password: {
       type: "password",
       label: "Current Password",
-      advanced: { required: true },
+      placeholder: "Enter your current password",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
     },
     new_password: {
       type: "password",
       label: "New Password",
-      advanced: { required: true },
+      placeholder: "Create a new password",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
     },
     confirm_password: {
       type: "password",
       label: "Confirm New Password",
-      advanced: { required: true },
+      placeholder: "Confirm your new password",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
     },
   },
 
@@ -136,7 +202,11 @@ const forms: Record<string, FormConfig> = {
     email: {
       type: "text",
       label: "New Email Address",
-      advanced: { required: true },
+      placeholder: "name@domain.com",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
     },
   },
 };
