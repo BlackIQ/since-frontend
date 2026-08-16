@@ -140,61 +140,6 @@ export default function TableComponent({
         const dateObj = new Date(value);
         return isValid(dateObj) ? dateFormat(dateObj, "yyyy/MM/dd") : "—";
       }
-
-      case "ipv4":
-      case "dns":
-        return value ? (
-          <Typography
-            variant="body2"
-            sx={{ fontFamily: "monospace", fontSize: "0.825rem" }}
-          >
-            {value}
-          </Typography>
-        ) : (
-          "—"
-        );
-
-      case "communication":
-        return value ? (
-          <Chip
-            label={String(value).toUpperCase()}
-            size="small"
-            variant="outlined"
-            sx={{ fontSize: "0.7rem", fontWeight: 600 }}
-          />
-        ) : (
-          "—"
-        );
-
-      case "agent_availability":
-        return (
-          <Tooltip
-            title={
-              row.latestActionMessage ||
-              (row.agent_availability ? "Online" : "Offline")
-            }
-            arrow
-          >
-            <Chip
-              label={row.agent_availability ? "Connected" : "Disconnected"}
-              color={row.agent_availability ? "success" : "error"}
-              size="small"
-              sx={{ fontSize: "0.75rem", fontWeight: 600 }}
-            />
-          </Tooltip>
-        );
-
-      case "is_active":
-        return (
-          <Chip
-            label={row.is_active ? "Active" : "Inactive"}
-            color={row.is_active ? "primary" : "default"}
-            size="small"
-            variant={row.is_active ? "filled" : "outlined"}
-            sx={{ fontSize: "0.75rem", fontWeight: 600 }}
-          />
-        );
-
       default:
         return value !== undefined && value !== null && value !== ""
           ? String(value)
@@ -203,6 +148,16 @@ export default function TableComponent({
   };
 
   const fieldKeys = Object.keys(config.fields);
+
+  const centeredFields = [
+    "update",
+    "delete",
+    "agent_availability",
+    "is_active",
+    "communication",
+  ];
+
+  const isCenteredField = (key: string) => centeredFields.includes(key);
 
   return (
     <Box sx={{ width: "100%", py: 2 }}>
@@ -220,7 +175,7 @@ export default function TableComponent({
             variant="h5"
             color="text.primary"
             sx={{
-              fontWeight: 700,
+              fontWeight: 600,
             }}
           >
             {config.title}
@@ -240,9 +195,7 @@ export default function TableComponent({
             startIcon={<Add />}
             disableElevation
             sx={{
-              borderRadius: 1,
               px: 3,
-              textTransform: "none",
               fontWeight: 600,
             }}
           >
@@ -254,38 +207,18 @@ export default function TableComponent({
       {/* Table Container */}
       <TableContainer
         component={Paper}
-        elevation={0}
         sx={{
-          borderRadius: 1,
-          border: "1px solid",
-          borderColor: "divider",
-          backgroundColor: "background.paper",
+          borderRadius: 2,
+          overflow: "hidden",
         }}
       >
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "rgba(255, 255, 255, 0.02)" }}>
+            <TableRow sx={{ backgroundColor: "#F7F5F0" }}>
               {Object.entries(config.fields).map(([key, label]) => (
                 <TableCell
                   key={key}
-                  align={
-                    [
-                      "update",
-                      "delete",
-                      "agent_availability",
-                      "is_active",
-                      "communication",
-                    ].includes(key)
-                      ? "center"
-                      : "left"
-                  }
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: "0.825rem",
-                    color: "text.secondary",
-                    borderColor: "divider",
-                    py: 1.5,
-                  }}
+                  align={isCenteredField(key) ? "center" : "left"}
                 >
                   {label}
                 </TableCell>
@@ -320,10 +253,14 @@ export default function TableComponent({
                   {add && (
                     <Button
                       onClick={add}
-                      variant="outlined"
-                      size="small"
+                      variant="contained"
+                      color="primary"
                       startIcon={<Add />}
-                      sx={{ mt: 1, textTransform: "none" }}
+                      disableElevation
+                      sx={{
+                        px: 3,
+                        fontWeight: 600,
+                      }}
                     >
                       {addText}
                     </Button>
@@ -344,17 +281,7 @@ export default function TableComponent({
                   {fieldKeys.map((key) => (
                     <TableCell
                       key={key}
-                      align={
-                        [
-                          "update",
-                          "delete",
-                          "agent_availability",
-                          "is_active",
-                          "communication",
-                        ].includes(key)
-                          ? "center"
-                          : "left"
-                      }
+                      align={isCenteredField(key) ? "center" : "left"}
                       sx={{
                         borderColor: "divider",
                         py: 1.75,

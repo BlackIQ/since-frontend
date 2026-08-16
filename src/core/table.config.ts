@@ -4,11 +4,13 @@ export interface TableConfig {
 }
 
 const tables = {
-  table_name: {
-    title: "Table Title",
+  counters: {
+    title: "Counters",
     fields: {
-      name: "Name",
-      created_at: "Created At",
+      title: "Title",
+      status: "Status",
+      visibility: "Visibility",
+      started_at: "Started",
       update: "Edit",
       delete: "Delete",
     },
