@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Token } from "@/types/common";
+import { Token } from "@/types/common.type";
 
 export interface TokenState {
   token: Token | null;
