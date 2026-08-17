@@ -37,6 +37,7 @@ export default function PublicCounterPage() {
     const fetchCounter = async () => {
       setLoading(true);
       setError(null);
+
       try {
         const data = await getPublicCounter(id);
         setCounter(data);
@@ -53,33 +54,73 @@ export default function PublicCounterPage() {
 
   if (loading) {
     return (
-      <Container maxWidth="sm" sx={{ py: 8 }}>
-        <Skeleton variant="rounded" height={320} sx={{ borderRadius: 3 }} />
-      </Container>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "background.default",
+          py: 6,
+        }}
+      >
+        <Container maxWidth="sm">
+          <Skeleton
+            variant="rounded"
+            height={320}
+            sx={{
+              borderRadius: 3,
+              bgcolor: "background.paper",
+            }}
+          />
+        </Container>
+      </Box>
     );
   }
 
   if (error || !counter) {
     return (
-      <Container maxWidth="sm" sx={{ py: 8, textAlign: "center" }}>
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{
-            fontWeight: 600,
-          }}
-        >
-          Counter not found
-        </Typography>
-        <Typography color="text.secondary">
-          {error || "This counter does not exist or is set to private."}
-        </Typography>
-      </Container>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "background.default",
+          py: 6,
+        }}
+      >
+        <Container maxWidth="sm">
+          <Card
+            sx={{
+              borderRadius: 3,
+              textAlign: "center",
+              p: 3,
+            }}
+          >
+            <CardContent>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                Counter not found
+              </Typography>
+
+              <Typography color="text.secondary">
+                {error || "This counter does not exist or is set to private."}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Container>
+      </Box>
     );
   }
 
   const startDate = counter.started_at ? new Date(counter.started_at) : null;
+
   const endDate = counter.ended_at ? new Date(counter.ended_at) : null;
+
   const isActive = counter.status === "active";
 
   const days =
@@ -96,35 +137,32 @@ export default function PublicCounterPage() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        background:
-          "linear-gradient(180deg, rgba(59,130,246,0.06) 0%, transparent 40%)",
-        py: 6,
+        backgroundColor: "background.default",
+        py: { xs: 4, sm: 6 },
       }}
     >
       <Container maxWidth="sm">
         <Card
-          elevation={0}
           sx={{
             borderRadius: 3,
-            border: "1px solid",
-            borderColor: "divider",
             overflow: "hidden",
           }}
         >
           <Box
             sx={{
               px: 3,
-              py: 2,
-              backgroundColor: "rgba(59, 130, 246, 0.08)",
+              py: 1.75,
+              backgroundColor: "primary.main",
+              color: "primary.contrastText",
               display: "flex",
               alignItems: "center",
               gap: 1,
             }}
           >
-            <Public fontSize="small" color="primary" />
+            <Public fontSize="small" />
+
             <Typography
               variant="body2"
-              color="primary"
               sx={{
                 fontWeight: 600,
               }}
@@ -133,15 +171,31 @@ export default function PublicCounterPage() {
             </Typography>
           </Box>
 
-          <CardContent sx={{ p: 3.5 }}>
+          <CardContent
+            sx={{
+              p: { xs: 2.5, sm: 3.5 },
+            }}
+          >
             <Typography
               variant="h4"
-              sx={{ fontWeight: 800, mb: 1.5, lineHeight: 1.2 }}
+              sx={{
+                fontWeight: 700,
+                mb: 1.5,
+                lineHeight: 1.2,
+                color: "text.primary",
+              }}
             >
               {counter.title}
             </Typography>
 
-            <Box sx={{ display: "flex", gap: 1, mb: 2.5, flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                mb: 2.5,
+                flexWrap: "wrap",
+              }}
+            >
               <Chip
                 icon={isActive ? <AccessTime /> : <CheckCircle />}
                 label={isActive ? "Active" : "Completed"}
@@ -154,7 +208,11 @@ export default function PublicCounterPage() {
             <Typography
               variant="body1"
               color="text.secondary"
-              sx={{ mb: 3, whiteSpace: "pre-wrap" }}
+              sx={{
+                mb: 3,
+                whiteSpace: "pre-wrap",
+                lineHeight: 1.8,
+              }}
             >
               {counter.description || "No description provided."}
             </Typography>
@@ -164,8 +222,11 @@ export default function PublicCounterPage() {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 3,
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "1fr 1fr",
+                },
+                gap: { xs: 2.5, sm: 3 },
               }}
             >
               <Box>
@@ -182,10 +243,12 @@ export default function PublicCounterPage() {
                   <CalendarMonth fontSize="inherit" />
                   Started
                 </Typography>
+
                 <Typography
                   variant="h6"
                   sx={{
                     fontWeight: 700,
+                    color: "text.primary",
                   }}
                 >
                   {startDate && isValid(startDate)
@@ -194,19 +257,30 @@ export default function PublicCounterPage() {
                 </Typography>
               </Box>
 
-              <Box sx={{ textAlign: "right" }}>
+              <Box
+                sx={{
+                  textAlign: {
+                    xs: "left",
+                    sm: "right",
+                  },
+                }}
+              >
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ display: "block", mb: 0.5 }}
+                  sx={{
+                    display: "block",
+                    mb: 0.5,
+                  }}
                 >
                   {isActive ? "Current streak" : "Total duration"}
                 </Typography>
+
                 <Typography
                   variant="h6"
                   color={isActive ? "primary.main" : "text.primary"}
                   sx={{
-                    fontWeight: 800,
+                    fontWeight: 700,
                   }}
                 >
                   {days} {days === 1 ? "day" : "days"}
@@ -215,30 +289,28 @@ export default function PublicCounterPage() {
             </Box>
 
             {!isActive && endDate && isValid(endDate) && (
-              <Box sx={{ mt: 3 }}>
-                <Typography variant="caption" color="text.secondary">
-                  Ended on
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontWeight: 600,
-                  }}
-                >
-                  {format(endDate, "MMM dd, yyyy")}
-                </Typography>
-              </Box>
+              <>
+                <Divider sx={{ my: 3 }} />
+
+                <Box>
+                  <Typography variant="caption" color="text.secondary">
+                    Ended on
+                  </Typography>
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontWeight: 600,
+                      mt: 0.25,
+                    }}
+                  >
+                    {format(endDate, "MMM dd, yyyy")}
+                  </Typography>
+                </Box>
+              </>
             )}
           </CardContent>
         </Card>
-
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ mt: 3, textAlign: "center" }}
-        >
-          Shared publicly • No account required
-        </Typography>
       </Container>
     </Box>
   );
