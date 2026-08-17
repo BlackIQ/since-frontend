@@ -239,6 +239,33 @@ const forms: Record<string, FormConfig> = {
       },
     },
   },
+
+  update_counter: {
+    title: {
+      type: "text",
+      label: "Title of your counter",
+      placeholder: "Stop smoking",
+      size: { xs: 12 },
+      advanced: { required: true },
+    },
+    description: {
+      type: "textarea",
+      label: "Your counter description",
+      placeholder: "I stopped smoking!",
+      size: { xs: 12 },
+      advanced: { required: true },
+    },
+    visibility: {
+      type: "select",
+      label: "Visibility",
+      size: { xs: 12 },
+      options: [
+        { id: "private", label: "Private" },
+        { id: "public", label: "Public" },
+      ],
+      advanced: { required: true },
+    },
+  },
 };
 
 export default forms;
