@@ -17,20 +17,20 @@ export const me = async (): Promise<UserProfile> => {
 export const updateProfile = async (
   payload: UpdateProfilePayload,
 ): Promise<UserProfile> => {
-  const response = await API.patch<UserProfile>(`${user}/me`, payload);
+  const response = await API.patch<UserProfile>(`${user}/change/profile`, payload);
   return response.data;
 };
 
 export const updatePassword = async (
   payload: UpdatePasswordPayload,
 ): Promise<UserProfile> => {
-  const response = await API.patch<UserProfile>(`${user}/password`, payload);
+  const response = await API.patch<UserProfile>(`${user}/change/password`, payload);
   return response.data;
 };
 
 export const updateEmail = async (
   payload: UpdateEmailPayload,
 ): Promise<UserProfile> => {
-  const response = await API.patch<UserProfile>(`${user}/email`, payload);
+  const response = await API.patch<UserProfile>(`${user}/change/email`, payload);
   return response.data;
 };
