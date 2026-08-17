@@ -23,7 +23,6 @@ export default function Home() {
         flexDirection: "column",
       }}
     >
-      {/* Navbar */}
       <Box
         component="header"
         sx={{
@@ -86,7 +85,6 @@ export default function Home() {
         </Button>
       </Box>
 
-      {/* Hero */}
       <Box
         sx={{
           flex: 1,
@@ -154,7 +152,6 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* Why / What */}
       <Box
         sx={{
           borderTop: "1px solid",
@@ -223,7 +220,6 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* Creator + Open Source */}
       <Box
         sx={{
           borderTop: "1px solid",
@@ -236,7 +232,6 @@ export default function Home() {
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={{ xs: 5, sm: 8 }}
-            justifyContent="space-between"
           >
             <Box>
               <Typography
@@ -338,7 +333,6 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* Footer */}
       <Box
         sx={{
           px: { xs: 3, md: 6 },
