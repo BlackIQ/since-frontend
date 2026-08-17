@@ -531,7 +531,7 @@ const AuthContent = () => {
               )}
 
               {/* Divider + mode switch */}
-              <Stack spacing={2.5} alignItems="center">
+              <Stack spacing={2.5}>
                 <Divider sx={{ width: "100%" }} />
                 <Button
                   fullWidth
