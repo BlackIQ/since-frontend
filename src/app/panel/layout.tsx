@@ -162,10 +162,22 @@ export default function PanelLayout({
               sx={{
                 height: 72,
                 display: "flex",
+                // justifyContent: "center",
                 alignItems: "center",
                 px: open ? 2 : 1.5,
               }}
             >
+              <IconButton
+                onClick={() => setOpen((value) => !value)}
+                // size="small"
+                sx={{
+                  borderRadius: 1.5,
+                  color: "text.primary",
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+
               {open && (
                 <Box
                   sx={{
@@ -187,18 +199,7 @@ export default function PanelLayout({
                 </Box>
               )}
 
-              <Box sx={{ flexGrow: 1 }} />
-
-              <IconButton
-                onClick={() => setOpen((value) => !value)}
-                size="small"
-                sx={{
-                  color: "text.secondary",
-                  ml: open ? 1 : 0,
-                }}
-              >
-                <MenuIcon fontSize="small" />
-              </IconButton>
+              {/* <Box sx={{ flexGrow: 1 }} /> */}
             </Box>
 
             <Divider />
