@@ -5,7 +5,8 @@ export type FieldType =
   | "password"
   | "select"
   | "multiselect"
-  | "switch";
+  | "switch"
+  | "datepicker";
 
 export interface SelectOption {
   id: string | number;
@@ -203,6 +204,35 @@ const forms: Record<string, FormConfig> = {
       type: "text",
       label: "New Email Address",
       placeholder: "name@domain.com",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
+    },
+  },
+
+  create_counter: {
+    title: {
+      type: "text",
+      label: "Title of your counter",
+      placeholder: "Stop smoking",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
+    },
+    description: {
+      type: "textarea",
+      label: "Your counter description",
+      placeholder: "A stopped smoking!",
+      size: { xs: 12 },
+      advanced: {
+        required: true,
+      },
+    },
+    started_at: {
+      type: "datepicker",
+      label: "Start date",
       size: { xs: 12 },
       advanced: {
         required: true,
