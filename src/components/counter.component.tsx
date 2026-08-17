@@ -11,7 +11,6 @@ import {
   Tooltip,
   Divider,
 } from "@mui/material";
-
 import {
   Edit,
   Delete,
@@ -19,16 +18,22 @@ import {
   Public,
   AccessTime,
   CheckCircle,
+  Replay,
+  Flag,
+  Share,
 } from "@mui/icons-material";
-
 import { format, isValid, differenceInDays } from "date-fns";
 import { CounterRead } from "@/types/counter.type";
+import { getCurrentPeriod } from "@/utils/counter.utils";
 
 interface CounterCardProps {
   counter: CounterRead;
   onClick?: (counter: CounterRead) => void;
   onEdit?: (counter: CounterRead) => void;
   onDelete?: (counter: CounterRead) => void;
+  onRestart?: (counter: CounterRead) => void;
+  onComplete?: (counter: CounterRead) => void;
+  onShare?: (counter: CounterRead) => void;
 }
 
 export default function CounterCard({
@@ -36,15 +41,23 @@ export default function CounterCard({
   onClick,
   onEdit,
   onDelete,
+  onRestart,
+  onComplete,
+  onShare,
 }: CounterCardProps) {
-  const startedAt = counter.periods?.[0]?.started_at;
-
-  const startDate = startedAt ? new Date(startedAt) : null;
+  const period = getCurrentPeriod(counter);
+  const startDate = period?.started_at ? new Date(period.started_at) : null;
+  const endDate = period?.ended_at ? new Date(period.ended_at) : null;
 
   const days =
     startDate && isValid(startDate)
-      ? differenceInDays(new Date(), startDate)
+      ? differenceInDays(
+          endDate && isValid(endDate) ? endDate : new Date(),
+          startDate,
+        )
       : 0;
+
+  const isActive = counter.status === "active";
 
   return (
     <Card
@@ -66,14 +79,8 @@ export default function CounterCard({
       }}
     >
       <CardContent sx={{ p: 2.5, flexGrow: 1 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 2,
-          }}
-        >
+        {/* Title + chips */}
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
           <Box sx={{ minWidth: 0 }}>
             <Typography
               variant="h6"
@@ -87,27 +94,18 @@ export default function CounterCard({
               {counter.title}
             </Typography>
 
-            <Box
-              sx={{
-                display: "flex",
-                gap: 0.75,
-                mt: 1,
-                flexWrap: "wrap",
-              }}
-            >
+            <Box sx={{ display: "flex", gap: 0.75, mt: 1, flexWrap: "wrap" }}>
               <Chip
-                icon={
-                  counter.status === "active" ? <AccessTime /> : <CheckCircle />
-                }
-                label={counter.status === "active" ? "Active" : "Completed"}
+                icon={isActive ? <AccessTime /> : <CheckCircle />}
+                label={isActive ? "Active" : "Completed"}
+                color={isActive ? "primary" : "success"}
                 size="small"
-                color={counter.status === "active" ? "primary" : "success"}
                 variant="outlined"
               />
-
               <Chip
                 icon={counter.visibility === "public" ? <Public /> : <Lock />}
                 label={counter.visibility === "public" ? "Public" : "Private"}
+                color="primary"
                 size="small"
                 variant="outlined"
               />
@@ -132,90 +130,96 @@ export default function CounterCard({
 
         <Divider sx={{ my: 2 }} />
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 2,
-          }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
           <Box>
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{
-                display: "flex",
-              }}
-            >
+            <Typography variant="caption" color="text.secondary">
               Started
             </Typography>
-
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: 600,
-              }}
-            >
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               {startDate && isValid(startDate)
                 ? format(startDate, "MMM dd, yyyy")
                 : "—"}
             </Typography>
           </Box>
 
-          {counter.status === "active" && (
-            <Box sx={{ textAlign: "right" }}>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                  display: "flex",
-                }}
-              >
-                Duration
-              </Typography>
-
-              <Typography
-                variant="body2"
-                color="primary.main"
-                sx={{
-                  fontWeight: 700,
-                }}
-              >
-                {days} {days === 1 ? "day" : "days"}
-              </Typography>
-            </Box>
-          )}
+          <Box sx={{ textAlign: "right" }}>
+            <Typography variant="caption" color="text.secondary">
+              {isActive ? "Duration" : "Lasted"}
+            </Typography>
+            <Typography
+              variant="body2"
+              color={isActive ? "primary.main" : "text.primary"}
+              sx={{ fontWeight: 700 }}
+            >
+              {days} {days === 1 ? "day" : "days"}
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
 
       <CardActions
-        sx={{
-          px: 2,
-          pb: 1.5,
-          pt: 0,
-          justifyContent: "flex-end",
-        }}
+        sx={{ px: 2, pb: 1.5, pt: 0, justifyContent: "space-between" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <Tooltip title="Edit">
-          <IconButton
-            size="small"
-            color="primary"
-            onClick={() => onEdit?.(counter)}
-          >
-            <Edit fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box>
+          {isActive && onRestart && (
+            <Tooltip title="Restart counter">
+              <IconButton
+                size="small"
+                color="warning"
+                onClick={() => onRestart(counter)}
+              >
+                <Replay fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+          {isActive && onComplete && (
+            <Tooltip title="Mark as completed">
+              <IconButton
+                size="small"
+                color="success"
+                onClick={() => onComplete(counter)}
+              >
+                <Flag fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
 
-        <Tooltip title="Delete">
-          <IconButton
-            size="small"
-            color="error"
-            onClick={() => onDelete?.(counter)}
-          >
-            <Delete fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box>
+          <Tooltip title="Edit">
+            <IconButton
+              size="small"
+              color="primary"
+              onClick={() => onEdit?.(counter)}
+            >
+              <Edit fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => onDelete?.(counter)}
+            >
+              <Delete fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          {counter.visibility === "public" && (
+            <Tooltip title="Copy public link">
+              <IconButton
+                size="small"
+                color="info"
+                onClick={() => {
+                  const url = `${window.location.origin}/counter/${counter.id}`;
+                  navigator.clipboard.writeText(url);
+                }}
+              >
+                <Share fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
       </CardActions>
     </Card>
   );
