@@ -7,6 +7,7 @@ export interface UserProfile {
   last_name: string | null;
   created_at: string;
   updated_at: string;
+  is_active: true;
 }
 
 export interface UpdateProfilePayload {
